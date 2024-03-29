@@ -51,7 +51,7 @@ class RepositoryManager(pm: PluginManager, pluginManifestUri: Option[String]) ex
 
   private def findRepositoryDefinitions(conf: Config): Seq[RepositoryDefinition] = {
     val cfs = conf.getConfigList("smqd-plugin.repositories").asScala
-    cfs.map(repositoryDefinition)
+    cfs.map(repositoryDefinition).toSeq
   }
 
   private def repositoryDefinition(conf: Config): RepositoryDefinition = {
@@ -168,11 +168,14 @@ class RepositoryManager(pm: PluginManager, pluginManifestUri: Option[String]) ex
       ExclusionRule("com.thing2x", "smqd-core_2.12"),
       ExclusionRule("org.scala-lang", "scala-library"))
 
+
+    val versionModuleID  = moduleDef.group %% moduleDef.artifact % moduleDef.version
+
     val module =
       if (isSnapshot)
-        moduleDef.group % moduleDef.artifact % moduleDef.version changing() excludeAll(exclusionRules:_*) force()
-      else
-        moduleDef.group % moduleDef.artifact % moduleDef.version excludeAll(exclusionRules:_*) force()
+        versionModuleID.changing().excludeAll(exclusionRules: _*).force()
+    else
+        versionModuleID.excludeAll(exclusionRules:_*).force()
 
     lm.retrieve(module, scalaModuleInfo = None, fileRetrieve, ivyLogger) match {
       case Left(w: UnresolvedWarning) =>

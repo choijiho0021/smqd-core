@@ -93,7 +93,7 @@ trait MqttProtocolNotifier {
             s"(mid: ${id.messageId.toString})"
           case _ => ""
         }
-      case m: MqttSubscribeMessage => s"(mid: ${m.variableHeader.messageId}, ${stringify(m.payload.topicSubscriptions.asScala)})"
+      case m: MqttSubscribeMessage => s"(mid: ${m.variableHeader.messageId}, ${stringify(m.payload.topicSubscriptions.asScala.toSeq)})"
       case m: MqttSubAckMessage => s"(mid: ${m.variableHeader.messageId}, grantedQoS: ${m.payload.grantedQoSLevels()})"
       case m: MqttUnsubscribeMessage => s"(mid: ${m.variableHeader.messageId})"
       case m: MqttPublishMessage =>

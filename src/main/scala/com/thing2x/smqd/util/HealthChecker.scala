@@ -152,7 +152,7 @@ class HealthChecker(name: String, smqd: Smqd, config: Config) extends Service (n
 
       job.token = Option(smqd.Implicit.system.scheduler.schedule(interval, interval, runnable))
       job
-    }
+    }.toSeq
   }
 
   override def stop(): Unit = {

@@ -43,7 +43,7 @@ trait JvmAware {
     memoryPoolMXBeans.asScala.map { mb =>
       val usage = mb.getUsage
       JvmMemoryPoolUsage(mb.getName, mb.getType.toString, usage.getUsed, usage.getMax)
-    }
+    }.toSeq
   }
 
   def javaOperatingSystem: JvmOperatingSystem = {
