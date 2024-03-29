@@ -6,17 +6,17 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val scala = "2.12.16"
+    val scala = "2.13.13"
     val akka = "2.5.32"
     val akkaHttp = "10.1.8"
     val netty = "4.1.78.Final"
-    val alpakka = "1.0.2"
+    val alpakka = "1.1.2"
   }
 
   val smqdLibs: Seq[ModuleID] = Seq(
     "com.thing2x" %% "smqd-lib-logging" % "0.1.1"
   )
-  
+
   val akka: Seq[ModuleID] = Seq(
     //////////////////////////////////
     // akka actor
@@ -37,7 +37,7 @@ object Dependencies {
     "com.lightbend.akka" %% "akka-stream-alpakka-mqtt" % Versions.alpakka,
     //////////////////////////////////
     // plugin package management
-    "org.scala-sbt" %% "librarymanagement-ivy" % "1.2.0-M3",
+    "org.scala-sbt" %% "librarymanagement-ivy" % "1.5.3",
     //////////////////////////////////
     // Logging
     "com.typesafe.akka" %% "akka-slf4j" % Versions.akka force(),
@@ -49,15 +49,15 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-multi-node-testkit" % Versions.akka % Test,
     "com.typesafe.akka" %% "akka-stream-testkit" % Versions.akka % Test,
     "com.typesafe.akka" %% "akka-http-testkit" % Versions.akkaHttp % Test,
-    "org.scalatest" %% "scalatest" % "3.0.5" % Test,
-    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.0.2" % Test
+    "org.scalatest" %% "scalatest" % "3.2.18" % Test,
+    "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.2.5" % Test
   )
 
   val circe: Seq[ModuleID] = Seq(
     "io.circe" %% "circe-core",
     "io.circe" %% "circe-generic",
     "io.circe" %% "circe-parser"
-  ).map( _ % "0.10.0")
+  ).map( _ % "0.14.6")
 
   val netty: Seq[ModuleID] = Seq(
     "io.netty" % "netty-buffer" % Versions.netty,
@@ -77,7 +77,7 @@ object Dependencies {
     "net.wimpi" % "telnetd-x" % "2.1.1" excludeAll ExclusionRule(organization = "log4j") force(),
     "commons-net" % "commons-net" % "3.6",
     "org.slf4j" % "log4j-over-slf4j" % "1.7.36",
-    "com.github.scopt" %% "scopt" % "3.7.0",
+    "com.github.scopt" %% "scopt" % "3.7.1"
   )
 
   val crypto: Seq[ModuleID] = Seq(
@@ -92,6 +92,6 @@ object Dependencies {
   )
 
   val jwt: Seq[ModuleID] = Seq(
-    "com.pauldijou" %% "jwt-core" % "0.16.0"
+    "com.pauldijou" %% "jwt-core" % "3.2.0"
   )
 }
