@@ -15,9 +15,10 @@
 package com.thing2x.smqd.net.telnet
 
 import java.io._
-
 import com.typesafe.scalalogging.StrictLogging
 import net.wimpi.telnetd.io.BasicTerminalIO
+
+import scala.tools.nsc.interpreter.shell.WriterOutputStream
 
 object ScTerm {
   val BLACK = 30
@@ -58,10 +59,10 @@ class ScTerm(termio: BasicTerminalIO) extends StrictLogging {
     }
 
     override def flush(): Unit = termio.flush()
-    override def close(): Unit = Unit
+    override def close(): Unit = ()
   }
 
-  val outputStream: OutputStream = new scala.tools.nsc.interpreter.WriterOutputStream(writer)
+  val outputStream: OutputStream = new WriterOutputStream(writer)
 
   val printStream: PrintStream = new PrintStream(outputStream)
 

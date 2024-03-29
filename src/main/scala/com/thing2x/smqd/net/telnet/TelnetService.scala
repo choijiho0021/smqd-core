@@ -65,8 +65,8 @@ class TelnetService(name: String, smqd: Smqd, config: Config) extends Service(na
 
     ScShell.setDelegate(new ScShellDelegate(){
       // set smqd instance into shell env
-      def beforeShellStart(shell: ScShell): Unit = Unit
-      def afterShellStop(shell: ScShell): Unit = Unit
+      def beforeShellStart(shell: ScShell): Unit = ()
+      def afterShellStop(shell: ScShell): Unit = ()
     })
 
     // delegate login authentication to UserDelegate of Smqd
