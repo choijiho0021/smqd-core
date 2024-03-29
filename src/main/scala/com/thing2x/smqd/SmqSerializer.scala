@@ -18,7 +18,7 @@ import java.io.{ByteArrayInputStream, ObjectInputStream, ObjectOutputStream}
 import java.nio.charset.Charset
 
 import akka.serialization.Serializer
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream
+import java.io.ByteArrayOutputStream
 import com.typesafe.scalalogging.StrictLogging
 import io.netty.buffer.ByteBuf
 
@@ -65,10 +65,10 @@ class SmqSerializer extends Serializer with StrictLogging {
           buf.writeBytes(data)
 
         case obj: AnyRef =>
-          val bos = new ByteOutputStream()
+          val bos = new ByteArrayOutputStream()
           val out = new ObjectOutputStream(bos)
           out.writeObject(obj)
-          val arr = bos.getBytes
+          val arr = bos.toByteArray
           bos.close()
 
           buf.writeByte('j')

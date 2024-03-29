@@ -19,7 +19,7 @@ import java.security.cert.{CertificateEncodingException, X509Certificate}
 
 import org.bouncycastle.crypto.digests.{SHA1Digest, SHA3Digest}
 import org.bouncycastle.pqc.math.linearalgebra.ByteUtils
-import sun.misc.BASE64Encoder
+import java.util.Base64
 
 // 2018. 5. 30. - Created by Kwon, Yeong Eon
 
@@ -47,7 +47,7 @@ object SslUtil {
       hex.sliding(2,2).toArray.map(Integer.parseInt(_, 16).toByte)
     }
 
-    val cert = new BASE64Encoder().encode(hex2bytes(hexCert))
+    val cert = Base64.getEncoder.encodeToString(hex2bytes(hexCert))    // new BASE64Encoder().encode(hex2bytes(hexCert))
     val sha3Hash = getSha3Hash(cert)
     sha3Hash
   }
@@ -68,7 +68,7 @@ object SslUtil {
       hex.sliding(2,2).toArray.map(Integer.parseInt(_, 16).toByte)
     }
 
-    val cert = new BASE64Encoder().encode(hex2bytes(hexCert))
+    val cert = Base64.getEncoder.encodeToString(hex2bytes(hexCert))
     val digest = getSha1Hash(cert)
     digest
   }
@@ -76,13 +76,13 @@ object SslUtil {
   @throws[CertificateEncodingException]
   @throws[IOException]
   def getX509CertificateString(cert: X509Certificate): String = {
-    trimNewLines( new BASE64Encoder().encode(cert.getEncoded))
+    trimNewLines( Base64.getEncoder.encodeToString(cert.getEncoded))
   }
 
   @throws[javax.security.cert.CertificateEncodingException]
   @throws[IOException]
   def getX509CertificateString(cert: javax.security.cert.X509Certificate): String = {
-    trimNewLines( new BASE64Encoder().encode(cert.getEncoded))
+    trimNewLines( Base64.getEncoder.encodeToString(cert.getEncoded))
   }
 
 }
