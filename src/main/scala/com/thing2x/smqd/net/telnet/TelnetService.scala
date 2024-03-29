@@ -61,7 +61,7 @@ class TelnetService(name: String, smqd: Smqd, config: Config) extends Service(na
     telnetD = TelnetD.createTelnetD(properties)
 
     TelnetService.smqdInstance = smqd
-    TelnetService.paths = config.getStringList("script.path").asScala
+    TelnetService.paths = config.getStringList("script.path").asScala.toSeq
 
     ScShell.setDelegate(new ScShellDelegate(){
       // set smqd instance into shell env

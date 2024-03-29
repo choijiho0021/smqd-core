@@ -94,7 +94,7 @@ class ScShell extends Shell with StrictLogging {
         cmd = ef.getValue
         ef.clear()
 
-        _history = ef.getHistory.asScala
+        _history = ef.getHistory.asScala.toSeq
         _historyOffset = ef.getHistoryOffset
 
         val args = cmd.split("\\s+").toSeq

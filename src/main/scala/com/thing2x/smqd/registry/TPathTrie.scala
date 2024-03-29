@@ -128,9 +128,9 @@ class TPathTrie[T] {
         children.get(TNameMultiWildcard) match {
           case Some(multi) =>
             // filter that ends with '#'. e.g) filter 'sensor/#' should match with topic 'sensor'
-            multi.contexts ++ contexts
+            multi.contexts.toSeq ++ contexts
           case None =>
-            contexts
+            contexts.toSeq
         }
       }
       else {

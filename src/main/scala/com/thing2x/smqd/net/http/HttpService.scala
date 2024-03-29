@@ -96,8 +96,8 @@ class HttpService(name: String, smqdInstance: Smqd, config: Config) extends Serv
     val logAdapter: HttpServiceLogger = new HttpServiceLogger(logger, name)
 
     // load routes configuration or from `loadRoutes()` of sub class
-    val rs = if (config.hasPath("routes")) loadRouteFromConfig(config.getConfigList("routes").asScala) else loadRoutes(config)
-    val cs = if (config.hasPath("statics")) loadStaticFromConfig(config.getConfigList("statics").asScala) else loadStatics(config)
+    val rs = if (config.hasPath("routes")) loadRouteFromConfig(config.getConfigList("routes").asScala.toSeq) else loadRoutes(config)
+    val cs = if (config.hasPath("statics")) loadStaticFromConfig(config.getConfigList("statics").asScala.toSeq) else loadStatics(config)
 
     val routes = rs ++ cs
 

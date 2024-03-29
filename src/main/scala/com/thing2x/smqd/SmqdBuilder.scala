@@ -21,7 +21,7 @@ import com.thing2x.smqd.registry.RegistryDelegate
 import com.thing2x.smqd.util.ClassLoading
 import com.typesafe.config.Config
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.concurrent.duration._
 import scala.concurrent.{Await, ExecutionContext}
 import scala.util.Success
@@ -127,7 +127,7 @@ class SmqdBuilder(config: Config) extends ClassLoading {
       Map( serviceNames.map { sname =>
         val sconf = config.getConfig("smqd."+sname)
         sname -> sconf
-      }: _*)
+      }.toSeq: _*)
     }
     else {
       serviceDefs

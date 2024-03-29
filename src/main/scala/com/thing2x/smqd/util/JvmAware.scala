@@ -19,7 +19,8 @@ import java.lang.management.ManagementFactory
 import com.sun.management.UnixOperatingSystemMXBean
 import com.thing2x.smqd.util.JvmAware.{JvmMemoryPoolUsage, JvmOperatingSystem}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
+
 
 // 2018. 7. 1. - Created by Kwon, Yeong Eon
 

@@ -21,7 +21,8 @@ import com.typesafe.config.Config
 import com.typesafe.scalalogging.StrictLogging
 import mousio.etcd4j.EtcdClient
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
+
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future, Promise}
 
@@ -57,7 +58,7 @@ class EtcdClusterDiscovery(config: Config, nodeName: String, selfAddress: Addres
         case (node, addr) =>
           logger.info(s"etcd  seed: $node = ${addr.toString}")
           AddressFromURIString.parse(addr)
-      }
+      }.toSeq
 
       rt.success(result)
 

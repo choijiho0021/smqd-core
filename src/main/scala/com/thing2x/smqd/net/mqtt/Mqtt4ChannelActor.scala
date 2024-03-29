@@ -326,7 +326,7 @@ class Mqtt4ChannelActor(smqdInstance: Smqd, channel: Channel, listenerName: Stri
     val result = Promise[Seq[QoS]]
 
     sessionActor match {
-      case Some(actor) => actor ! Subscribe(subscriptions, result)
+      case Some(actor) => actor ! Subscribe(subscriptions.toSeq, result)
       case _ => logger.error("no session actor exists")
     }
 
@@ -356,7 +356,7 @@ class Mqtt4ChannelActor(smqdInstance: Smqd, channel: Channel, listenerName: Stri
     val result = Promise[Seq[Boolean]]
 
     sessionActor match {
-      case Some(actor) => actor ! Unsubscribe(unsubs, result)
+      case Some(actor) => actor ! Unsubscribe(unsubs.toSeq, result)
       case _ => logger.error("no session actor exists")
     }
 

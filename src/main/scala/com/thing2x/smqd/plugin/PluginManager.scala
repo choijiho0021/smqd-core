@@ -61,7 +61,7 @@ object PluginManager extends StrictLogging {
       }
     val staticPlugins = if (config.hasPath("static")) config.getStringList("static").asScala else  Seq.empty
 
-    new PluginManager(pluginDirPath, pluginInstanceConfDirPath, config.getOptionString("manifest"), staticPlugins, coreVersion)
+    new PluginManager(pluginDirPath, pluginInstanceConfDirPath, config.getOptionString("manifest"), staticPlugins.toSeq, coreVersion)
   }
 
   def apply(pluginLibPath: String, pluginConfPath: String, pluginManifestUri: String, coreVersion: String) =
