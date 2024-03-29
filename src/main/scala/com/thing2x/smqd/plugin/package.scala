@@ -70,7 +70,10 @@ package object plugin {
         "SINGLE"
       }
 
-      val instances = obj.instances.map(_.asJson)
+      // 확인이 필요한 코드...
+      implicit val jsonOrdering: Ordering[Json] = Ordering.by(_.name)
+
+      val instances = obj.instances.map(_.asJson).toSet
 
       Json.obj(
         ("name",            Json.fromString(obj.name)),

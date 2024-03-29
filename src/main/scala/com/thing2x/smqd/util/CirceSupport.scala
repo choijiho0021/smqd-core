@@ -23,6 +23,7 @@ import akka.util.ByteString
 import cats.data.NonEmptyList
 import cats.syntax.show.toShow
 import io.circe._
+import cats.data.ValidatedNel
 
 import scala.collection.immutable.Seq
 
@@ -79,7 +80,7 @@ trait BaseCirceSupport {
   implicit final def jsonMarshaller(implicit printer: Printer = Printer.noSpaces): ToEntityMarshaller[Json] =
     Marshaller.oneOf(mediaTypes: _*) { mediaType =>
       Marshaller.withFixedContentType(ContentType(mediaType)) { json =>
-        HttpEntity(mediaType, printer.pretty(json))
+        HttpEntity(mediaType, json.spaces2)
       }
     }
 
@@ -132,8 +133,7 @@ trait ErrorAccumulatingUnmarshaller { this: BaseCirceSupport =>
 
   override implicit final def unmarshaller[A: Decoder]: FromEntityUnmarshaller[A] = {
     def decode(json: Json) =
-      Decoder[A]
-        .accumulating(json.hcursor)
+      Decoder[A].decodeAccumulating(json.hcursor)
         .fold(failures => throw ErrorAccumulatingCirceSupport.DecodingFailures(failures), identity)
     jsonUnmarshaller.map(decode)
   }
