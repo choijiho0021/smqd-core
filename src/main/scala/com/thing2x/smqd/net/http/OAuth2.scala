@@ -23,11 +23,12 @@ import pdi.jwt.{Jwt, JwtAlgorithm, JwtClaim}
 
 import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success}
-
 import io.circe._
 import io.circe.syntax._
 import io.circe.generic.auto._
 import io.circe.parser._
+
+import java.time.Clock
 
 // 2018. 7. 14. - Created by Kwon, Yeong Eon
 
@@ -90,7 +91,7 @@ class OAuth2(secretKey: String, tokenExpire: Duration, refreshTokenExpire: Durat
   private def verifyToken(token: String): Option[OAuth2Claim] = {
     Jwt.decode(token, secretKey, JwtAlgorithm.allHmac()) match {
       case Success(claim) =>
-        parse(claim) match {
+        parse(claim.content) match {
           case Right(json) => json.as[OAuth2Claim] match {
             case Right(parsedClaim) => Some(parsedClaim)
             case Left(ex) =>
@@ -145,6 +146,9 @@ class OAuth2(secretKey: String, tokenExpire: Duration, refreshTokenExpire: Durat
     val tokenJson = claim.asJson.noSpaces
     val refreshJson = refreshClaim.asJson.noSpaces
 
+    //
+    implicit val clock = Clock.systemUTC()
+
     val access = Jwt.encode(JwtClaim(tokenJson).issuedNow.expiresIn(tokenExpire.toSeconds), secretKey, algorithm)
     val refresh = Jwt.encode(JwtClaim(refreshJson).issuedNow.expiresIn(refreshTokenExpire.toSeconds), secretKey, algorithm)
 
@@ -163,7 +167,7 @@ class OAuth2(secretKey: String, tokenExpire: Duration, refreshTokenExpire: Durat
   def refreshToken(refreshTokenString: String): Option[OAuth2RefreshClaim] = {
     Jwt.decode(refreshTokenString, secretKey, JwtAlgorithm.allHmac) match {
       case Success(tokenString) =>
-        parse(tokenString) match {
+        parse(tokenString.content) match {
           case Right(json) => json.as[OAuth2RefreshClaim] match {
             case Right(refreshToken) =>
               Option(refreshToken)
@@ -183,7 +187,7 @@ class OAuth2(secretKey: String, tokenExpire: Duration, refreshTokenExpire: Durat
 
   def reissueJwt(claim: OAuth2Claim, refreshTokenString: String): Directive1[OAuth2JwtToken] = {
     Jwt.decode(refreshTokenString, secretKey, JwtAlgorithm.allHmac) match {
-      case Success(tokenString) => parse(tokenString) match {
+      case Success(tokenString) => parse(tokenString.content) match {
           case Right(json) => json.as[OAuth2RefreshClaim] match {
             case Right(refreshClaim) =>
               if (claim.identifier == refreshClaim.identifier) {
