@@ -150,6 +150,8 @@ class ChiefActor(smqd: Smqd, requestor: Requestor, registry: Registry, router: R
   import smqd.Implicit._
 
   def nodeInfo: Future[Seq[NodeInfo]] = {
+    implicit val actorSelectionOrdering: Ordering[akka.actor.ActorSelection] = Ordering.by(_.toString)
+
     val actorSelections = smqd.cluster match {
       case Some(cl) => // cluster mode ask all nodes
         cl.state.members.map{ m =>
