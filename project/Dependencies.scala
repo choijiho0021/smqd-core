@@ -49,7 +49,7 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-multi-node-testkit" % Versions.akka % Test,
     "com.typesafe.akka" %% "akka-stream-testkit" % Versions.akka % Test,
     "com.typesafe.akka" %% "akka-http-testkit" % Versions.akkaHttp % Test,
-    "org.scalatest" %% "scalatest" % "3.2.18" % Test,
+    "org.scalatest" %% "scalatest" % "3.1.4" % Test,
     "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.2.5" % Test
   )
 
