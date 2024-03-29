@@ -38,7 +38,8 @@ class ScEngine extends StrictLogging {
   private val engine = new ScriptEngineManager().getEngineByName("scala").asInstanceOf[ScriptEngine with Compilable]
   private val context = engine.getContext
 
-  private[telnet] val intp: IMain = engine.asInstanceOf[scala.tools.nsc.interpreter.Scripted].intp
+  private[telnet] val intp: IMain = engine.asInstanceOf[scala.tools.nsc.interpreter.IMain]
+
   def setWriter(writer: Writer): Unit = context.setWriter(writer)
   def setErrorWriter(writer: Writer): Unit = context.setErrorWriter(writer)
   def setReader(reader: Reader): Unit = context.setReader(reader)
